@@ -1,0 +1,3114 @@
+{
+  "categories": {
+    "EMAIL": [
+      {
+        "id": "EMAIL_001_REQUIRED_IF_DECLARED",
+        "description": "The email field must declare the 'required' attribute if submission without a value should be blocked. A primary email field without 'required' allows empty submissions that the server must then handle.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.required === true || field.element.ariaRequired === true"
+      },
+      {
+        "id": "EMAIL_002_TYPE_EMAIL_DECLARED",
+        "description": "The field should use type='email' for mobile keyboard optimization and basic browser validation.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.type === 'email'"
+      },
+      {
+        "id": "EMAIL_003_HAS_ID_ATTRIBUTE",
+        "description": "The field must declare an 'id' attribute to be accessible and programmatically labelable.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.id !== '' && field.element.id !== undefined"
+      },
+      {
+        "id": "EMAIL_004_HAS_NAME_ATTRIBUTE",
+        "description": "The field must declare a 'name' attribute for form submission and server-side processing.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "EMAIL_005_HAS_ARIA_LABEL",
+        "description": "The field should have an aria-label or associated label element for screen reader accessibility.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "EMAIL_006_MAX_LENGTH_DECLARED",
+        "description": "The email field should declare a maxlength attribute to prevent excessive input (RFC 5321 max: 254).",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "EMAIL_007_MISSING_AT",
+        "description": "The field must not accept plain text without '@' under any submit context.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_MISSING_AT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_008_MISSING_DOMAIN",
+        "description": "Verify rejection of email missing domain part (user@ is invalid).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_MISSING_DOMAIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_009_MISSING_USER",
+        "description": "Verify rejection of email missing local part (@domain.com is invalid).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_MISSING_USER",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_010_INVALID_CHARS",
+        "description": "Test rejection of emails with unquoted backslash in local part (RFC 5321 invalid unquoted character).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_INVALID_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_011_MULTIPLE_AT",
+        "description": "The field must reject email addresses containing more than one '@' symbol.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_MULTIPLE_AT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_012_DOT_START",
+        "description": "Verify rejection of email with dot at start of local part (.user@test.com is invalid per RFC 5321). HTML5 does not block this format — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOT_START",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_013_DOT_END",
+        "description": "Verify rejection of email with dot at end of local part (user.@test.com is invalid per RFC 5321). HTML5 does not block this format — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOT_END",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_014_DOUBLE_DOT",
+        "description": "Verify rejection of email with consecutive dots in local part (user..name@test.com). HTML5 does not block this format — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOUBLE_DOT",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_015_LOCAL_PART_64",
+        "description": "Verify system accepts emails at local part boundary (64 chars = RFC 5321 max).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_LOCAL_64",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "EMAIL_016_LOCAL_PART_65",
+        "description": "Verify rejection of email exceeding local part boundary (65 chars > RFC 5321 max of 64).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_LOCAL_65",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_017_LENGTH_254",
+        "description": "Verify system accepts email at total length boundary (254 chars = RFC 5321 max).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_LENGTH_254",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "EMAIL_018_LENGTH_255",
+        "description": "Verify rejection of email exceeding RFC 5321 max total length (255 chars).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_LENGTH_255",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_019_DOMAIN_NO_DOT",
+        "description": "Verify rejection of email with domain without TLD dot (user@test is invalid).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOMAIN_NO_DOT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_020_DOMAIN_HYPHEN_START",
+        "description": "Verify rejection of email with hyphen at start of domain label (RFC 5321 invalid). HTML5 does not block this format — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOMAIN_HYPHEN_START",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_021_DOMAIN_HYPHEN_END",
+        "description": "Verify rejection of email with hyphen at end of domain label (RFC 5321 invalid). HTML5 does not block this format — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOMAIN_HYPHEN_END",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_022_DOMAIN_DOUBLE_DOT",
+        "description": "Verify rejection of email with consecutive dots in domain part (user@test..com is invalid).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_DOMAIN_DOUBLE_DOT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_023_SPACE_INSIDE",
+        "description": "Verify rejection of email containing unquoted spaces in the local part (user @test.com is invalid).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_SPACE_INSIDE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "EMAIL_024_SPACE_START",
+        "description": "Verify the field does not silently accept a leading space: ' user@test.com' is not a valid email. The field must block submission or show an error — silent acceptance creates inconsistent login credentials.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_SPACE_START",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "EMAIL_025_SPACE_END",
+        "description": "Verify the field does not silently accept a trailing space: 'user@test.com ' is not a valid email. The field must block submission or show an error — silent acceptance creates inconsistent login credentials.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_SPACE_END",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "EMAIL_026_CONTROL_CHAR",
+        "description": "Verify rejection of email containing control characters (e.g. null bytes, ASCII 0x01). These must be blocked at the frontend or rejected by the server — passing them to the backend is a security risk.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_CONTROL_CHAR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "EMAIL_027_SQL_INJECTION",
+        "description": "Verify that SQL injection patterns in the email field are blocked by the frontend (invalid email format) or rejected by the server with a 4xx response.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "EMAIL_028_XSS_INJECTION",
+        "description": "Verify that XSS payloads in the email field are blocked by the frontend (invalid email format) or rejected by the server with a 4xx response.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_XSS_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "EMAIL_029_VALID_ACCEPTANCE",
+        "description": "Verify that a well-formed valid email address is accepted by the form without friction.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_VALID_SINGLE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "EMAIL_030_ZERO_WIDTH_SPACE",
+        "description": "Verify rejection of email containing a zero-width space (U+200B) in the local part. Zero-width spaces are invisible to users but corrupt the email address — they must be blocked or stripped with explicit feedback.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_ZERO_WIDTH_SPACE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "EMAIL_031_TLD_NUMERIC",
+        "description": "Verify acceptance of email with all-numeric TLD (user@test.123). Per RFC 5321 and ICANN, numeric TLDs are technically valid — a system that rejects them is over-restrictive.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_EMAIL_TLD_NUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      }
+    ],
+    "PASSWORD": [
+      {
+        "id": "PWD_001_MASKED_INPUT",
+        "description": "Passwords must use type='password' to mask characters on screen.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.type === 'password'"
+      },
+      {
+        "id": "PWD_002_REQUIRED_IF_DECLARED",
+        "description": "Login password fields must declare the 'required' attribute — an unprotected empty submission is a Critical vulnerability in authentication forms.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "PWD_003_HAS_ARIA_LABEL",
+        "description": "The password field should have an accessible label for screen readers.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "PWD_004_AUTOCOMPLETE_DECLARED",
+        "description": "The password field should declare autocomplete='current-password' or 'new-password' for credential managers.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.autocomplete !== undefined"
+      },
+      {
+        "id": "PWD_005_TOO_SHORT_REJECTION",
+        "description": "Verify that passwords below minimum length (typically 8 chars — payload: 7 chars) are rejected by the form.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PWD_TOO_SHORT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_006_MIN_VALID_ACCEPTANCE",
+        "description": "Verify that a password at exactly the minimum valid length (8 chars) is accepted without friction.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_MIN_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_007_ULTRA_SHORT_REJECTION",
+        "description": "Verify that extremely short passwords (3 chars) are definitively rejected.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_ULTRA_SHORT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_008_EMPTY_REJECTION",
+        "description": "Verify that an empty string is rejected as a password — empty submissions must be blocked.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PWD_EMPTY_STRING",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_009_ONLY_SPACES_REJECTION",
+        "description": "Verify that a password consisting only of spaces is rejected or trimmed-then-rejected. HTML5 does not block whitespace-only input — test via blur for DOM error feedback.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PWD_ONLY_SPACES",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_010_INTERNAL_SPACES",
+        "description": "Verify that passwords with internal spaces are accepted — spaces are valid password characters and must not be silently stripped.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PWD_INTERNAL_SPACES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_011_NO_NUMBERS_REJECTION",
+        "description": "Verify acceptance of passwords without numbers — complexity enforcement (requiring numbers) is only expected in registration/change-password forms, not login.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_NO_NUMBERS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_012_NO_SPECIALS_REJECTION",
+        "description": "Verify acceptance of passwords without special characters — complexity enforcement is only expected in registration/change-password forms, not login.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_NO_SPECIALS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_013_NO_UPPERCASE_REJECTION",
+        "description": "Verify acceptance of passwords without uppercase letters — complexity enforcement is only expected in registration/change-password forms, not login.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_NO_UPPERCASE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_014_SPECIAL_CHARS_ACCEPTANCE",
+        "description": "Verify that passwords with special characters are accepted — blocking special chars reduces password entropy and is an unjustified constraint.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PWD_SPECIAL_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_015_EXTENDED_LATIN_ACCEPTANCE",
+        "description": "Verify that passwords with extended Latin characters (accented, e.g. Árbol) are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_EXTENDED_LATIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_016_UNICODE_ACCEPTANCE",
+        "description": "Verify that passwords with Unicode characters (e.g. CJK) are accepted or consistently handled — the system must not crash or corrupt the value.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_UNICODE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_017_MAX_LENGTH_128",
+        "description": "Verify system accepts password at the typical max boundary (128 chars).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PWD_128_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_018a_MAXLENGTH_DECLARED",
+        "description": "If a maxlength attribute is declared on the password field, the server must enforce the same constraint. A declared maxlength not enforced server-side is a bypassable control — Playwright's fill() bypasses HTML maxlength, so overflow payloads can reach the server regardless of the attribute.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "PWD_018b_OVERFLOW_129",
+        "description": "Verify that a password exceeding the declared maxlength (128 chars) is blocked or rejected. If the overflow payload reaches the server and is accepted, the maxlength constraint is bypassable — an incongruency between declared and enforced limits.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PWD_129_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PWD_019_SQL_INJECTION",
+        "description": "Verify that SQL injection payloads in the password field are rejected by the server (4xx response). Unlike email, password fields have no HTML5 format validation — the request will reach the server and it must reject it.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PWD_020_XSS_INJECTION",
+        "description": "Verify that XSS payloads in the password field are rejected by the server (4xx response). Unlike email, password fields have no HTML5 format validation — the request will reach the server and it must reject it.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_XSS_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PWD_021a_LEADING_SPACE",
+        "description": "Verify the field gives feedback when a leading space is entered in a password. Silent acceptance is dangerous: the user's effective password differs from what they believe they typed, causing silent authentication failures.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PWD_LEADING_SPACE",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_021b_TRAILING_SPACE",
+        "description": "Verify the field gives feedback when a trailing space is entered in a password. Silent acceptance is dangerous: the user's effective password differs from what they believe they typed, causing silent authentication failures.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PWD_TRAILING_SPACE",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PWD_022_TYPICAL_VALID_ACCEPTANCE",
+        "description": "Verify a typical valid password (mixed case + number, e.g. Password1) is accepted without friction.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PWD_TYPICAL_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PWD_023_ZERO_WIDTH_SPACE",
+        "description": "Verify rejection of a password containing a zero-width space (U+200B). Zero-width spaces are invisible to users but alter the actual password value — they must be rejected or stripped with explicit feedback to prevent silent credential corruption.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PWD_ZERO_WIDTH_SPACE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PWD_024_MINLENGTH_DECLARED",
+        "description": "The password field should declare a minlength attribute to communicate the minimum requirement to the browser and screen readers. Absence of minlength means the browser cannot assist users before submission.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.minLength !== undefined && field.element.minLength > 0"
+      }
+    ],
+    "TEXT": [
+      {
+        "id": "TEXT_001_REQUIRED_IF_DECLARED",
+        "description": "Mandatory text fields must have the required attribute and block submission when empty.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "TEXT_002_HAS_ID_ATTRIBUTE",
+        "description": "Text fields must declare an 'id' attribute for accessibility and programmatic access.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.id !== '' && field.element.id !== undefined"
+      },
+      {
+        "id": "TEXT_003_HAS_NAME_ATTRIBUTE",
+        "description": "Text fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "TEXT_004_HAS_ARIA_LABEL",
+        "description": "Text fields should be associated with a label for screen reader accessibility.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "TEXT_005_MAX_LENGTH_DECLARED",
+        "description": "Text fields should declare a maxlength attribute to prevent excessive input.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "TEXT_006_EMPTY_REJECTION",
+        "description": "Verify that empty text fields block submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_TEXT_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "TEXT_007_ONLY_SPACES_REJECTION",
+        "description": "Verify rejection of input containing only whitespace characters.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_TEXT_ONLY_SPACES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "TEXT_008_LEADING_SPACE",
+        "description": "Verify consistent handling of leading spaces in text fields. The field may trim or accept them; if trimmed silently without feedback, data integrity issues may occur.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXT_LEADING_SPACE",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_009_TRAILING_SPACE",
+        "description": "Verify consistent handling of trailing spaces in text fields. The field may trim or accept them; if trimmed silently without feedback, data integrity issues may occur.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXT_TRAILING_SPACE",
+        "requiredInteractionType": "BLUR",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_010_ALPHANUMERIC_ACCEPTANCE",
+        "description": "Verify standard alphanumeric text is accepted without error.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXT_ALPHANUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_011_EXTENDED_LATIN_ACCEPTANCE",
+        "description": "Verify text with extended Latin characters (accents, tildes) is accepted.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_TEXT_EXTENDED_LATIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_012_UNICODE_ACCEPTANCE",
+        "description": "Verify text with Unicode characters (CJK, etc.) is handled consistently.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXT_UNICODE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_013_SPECIAL_CHARS_ACCEPTANCE",
+        "description": "Verify text with special characters is accepted unless there's a business rule against it.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXT_SPECIAL_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_014_OVERFLOW_500",
+        "description": "Test system response to 500-character text input (overflow detection).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_TEXT_OVERFLOW_500",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_015_OVERFLOW_5000",
+        "description": "Test system response to 5000-character destructive overflow.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_STRING_5000",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TEXT_016_HTML_INJECTION",
+        "description": "Verify the field rejects or escapes HTML injection attempts.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXT_HTML_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TEXT_017_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting (XSS) vulnerability in text field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_XSS_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TEXT_018_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in text field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXT_SQL_LIKE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TEXT_019_CONTROL_CHAR",
+        "description": "Verify rejection of text containing control characters (null bytes, etc.).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXT_CONTROL_CHAR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TEXT_020_MULTIPLE_SPACES",
+        "description": "Verify consistent handling of multiple consecutive internal spaces.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXT_MULTIPLE_SPACES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TEXT_021_PATTERN_COHERENCE",
+        "description": "If a pattern attribute is declared, verify it matches the expected field semantics.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.pattern !== undefined && field.element.pattern !== ''"
+      },
+      {
+        "id": "TEXT_022_MINLENGTH_COHERENCE",
+        "description": "If minlength is declared, verify its value is reasonable (> 0 and < maxlength).",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "(field.element.minLength === undefined || field.element.minLength === null) || (field.element.minLength > 0 && field.element.minLength < field.element.maxLength)"
+      },
+      {
+        "id": "TEXT_023_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a field cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      }
+    ],
+    "NUMBER": [
+      {
+        "id": "NUM_001_TYPE_NUMBER_DECLARED",
+        "description": "Numeric fields should use type='number' or type='tel' for keyboard optimization.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.type === 'number'"
+      },
+      {
+        "id": "NUM_002_REQUIRED_IF_DECLARED",
+        "description": "Mandatory numeric fields must have the required attribute set.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "NUM_003_HAS_ARIA_LABEL",
+        "description": "Numeric fields should be associated with an accessible label.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "NUM_004_MIN_DECLARED",
+        "description": "Numeric fields should declare a min attribute if there's a lower bound constraint.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.min !== undefined"
+      },
+      {
+        "id": "NUM_005_MAX_DECLARED",
+        "description": "Numeric fields should declare a max attribute if there's an upper bound constraint.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.max !== undefined"
+      },
+      {
+        "id": "NUM_006_EMPTY_REJECTION",
+        "description": "Verify that empty numeric fields block submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_007_ALPHA_REJECTION",
+        "description": "Verify that purely alphabetical input is rejected in numeric fields.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_ALPHA",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_008_ALPHANUMERIC_REJECTION",
+        "description": "Verify that mixed alphanumeric input is rejected in numeric fields.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_ALPHANUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_009_SPECIAL_CHARS_REJECTION",
+        "description": "Verify that special characters are rejected in numeric fields.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_SPECIAL_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_010_ZERO_HANDLING",
+        "description": "Verify consistent handling of zero value input.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_ZERO",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "NUM_011_NEGATIVE_VALUE",
+        "description": "Test system behavior on negative value input. A numeric field that is expected to only accept positive values should reject negatives; fields that legitimately accept negatives (balances, temperatures, coordinates) should allow them.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_NEGATIVE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_012_POSITIVE_ACCEPTANCE",
+        "description": "Verify that a standard positive integer is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_POSITIVE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "NUM_013_FLOAT_HANDLING",
+        "description": "Verify consistent behavior with decimal (float) values.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_FLOAT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "NUM_014_LARGE_OVERFLOW",
+        "description": "Verify rejection of extremely large numbers that exceed typical integer limits.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_LARGE_OVERFLOW",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_015_SCIENTIFIC_NOTATION",
+        "description": "Verify consistent handling of scientific notation (1e5 = 100000). Some browsers accept this in type=number fields; if the business rule requires integers only, scientific notation must be rejected.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_SCIENTIFIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "NUM_016_NEGATIVE_ZERO",
+        "description": "Verify consistent handling of negative zero value (-0).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_NEGATIVE_ZERO",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "NUM_017_LEADING_SPACE",
+        "description": "Verify the field does not silently accept leading-space numbers.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_LEADING_SPACE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_018_TRAILING_SPACE",
+        "description": "Verify the field does not silently accept trailing-space numbers.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_TRAILING_SPACE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_019_HTML_INJECTION",
+        "description": "Verify the field rejects HTML injection attempts.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_HTML_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "NUM_020_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in numeric field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_SQL_LIKE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "NUM_021_STEP_ATTRIBUTE",
+        "description": "If a step attribute is declared, verify it enforces correct value increments.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.step !== undefined && field.element.step > 0"
+      },
+      {
+        "id": "NUM_022_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a numeric field cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "NUM_023_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in numeric field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_XSS_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "NUM_024_HAS_NAME_ATTRIBUTE",
+        "description": "Numeric fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "NUM_025_PLACEHOLDER_COHERENCE",
+        "description": "If a placeholder is declared, verify it indicates a numeric format.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.placeholder !== '' && field.element.placeholder !== undefined"
+      },
+      {
+        "id": "NUM_026_MIN_MAX_COHERENCE",
+        "description": "If both min and max are declared, verify that min < max to avoid illogical constraints.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.min !== undefined && field.element.max !== undefined && field.element.min >= field.element.max)"
+      },
+      {
+        "id": "NUM_027_READONLY_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a required field that is also readonly may prevent the user from entering a value.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "!(field.element.required === true && field.element.readOnly === true)"
+      },
+      {
+        "id": "NUM_028_GENERIC_OVERFLOW",
+        "description": "Insert destructive overflow string to test server-side numeric type casting vulnerabilities.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "NUM_029_FLOAT_MULTI_DECIMAL",
+        "description": "Verify rejection of malformed floats with multiple decimal points (1.1.1). These are invalid numbers that some parsers may mishandle, causing type confusion or crashes.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_MULTI_DECIMAL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "NUM_030_NEGATIVE_OVERFLOW",
+        "description": "Verify rejection or safe handling of large negative overflow values (-9999999999999). These can trigger signed integer overflow or incorrect type casting on the server.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_NUMBER_NEGATIVE_OVERFLOW",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      }
+    ],
+    "PHONE": [
+      {
+        "id": "PHONE_001_REQUIRED_IF_DECLARED",
+        "description": "Phone number fields marked as required must have the attribute and block empty submissions.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "PHONE_002_TYPE_TEL_DECLARED",
+        "description": "Phone fields should use type='tel' for numeric keyboard on mobile devices.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.type === 'tel'"
+      },
+      {
+        "id": "PHONE_003_HAS_ARIA_LABEL",
+        "description": "Phone fields should have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "PHONE_004_HAS_NAME_ATTRIBUTE",
+        "description": "Phone fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "PHONE_005_PATTERN_DECLARED",
+        "description": "Phone fields should declare a pattern attribute to enforce valid format.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.pattern !== undefined && field.element.pattern !== ''"
+      },
+      {
+        "id": "PHONE_006_EMPTY_REJECTION",
+        "description": "Verify that empty phone fields block submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PHONE_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_007_ALPHA_REJECTION",
+        "description": "Verify rejection of alphabetical characters in phone number field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PHONE_ALPHA",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_008_ALPHANUMERIC_REJECTION",
+        "description": "Verify rejection of mixed alphanumeric input in phone number field.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PHONE_ALPHANUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_009_TOO_SHORT_REJECTION",
+        "description": "Verify rejection of extremely short phone number inputs.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PHONE_TOO_SHORT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_010_TOO_LONG_REJECTION",
+        "description": "Verify rejection of phone numbers exceeding typical maximum length (15 digits per E.164).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PHONE_TOO_LONG",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_011_DIGITS_ONLY_ACCEPTANCE",
+        "description": "Verify that a standard 10-digit number is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PHONE_DIGITS_ONLY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_012_INTL_PREFIX_HANDLING",
+        "description": "Verify consistent handling of international prefix (+52...) in phone fields.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PHONE_INTL_PREFIX",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_013_MULTIPLE_PLUS_REJECTION",
+        "description": "Verify rejection of multiple '+' prefixes in phone number (++52...).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PHONE_MULTIPLE_PLUS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_014_PLUS_MIDDLE_REJECTION",
+        "description": "Verify rejection of '+' symbol appearing in the middle of a phone number.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PHONE_PLUS_MIDDLE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_015_DASH_SEPARATOR_HANDLING",
+        "description": "Verify consistent handling of dash-separated phone format (55-1234-5678).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PHONE_DASH_SEPARATOR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_016_SPACE_SEPARATOR_HANDLING",
+        "description": "Verify consistent handling of space-separated phone format (55 1234 5678).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PHONE_SPACE_SEPARATOR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_017_PARENTHESES_HANDLING",
+        "description": "Verify consistent handling of parentheses in phone format ((55)12345678).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PHONE_PARENTHESES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_018_SPECIAL_CHARS_REJECTION",
+        "description": "Verify rejection of special characters (@#!) in phone number field.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_PHONE_SPECIAL_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "PHONE_019_EXTENSION_HANDLING",
+        "description": "Verify consistent handling of phone extension notation.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_PHONE_EXTENSION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "PHONE_020_CONTROL_CHAR",
+        "description": "Verify rejection of phone numbers containing control characters.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PHONE_CONTROL_CHAR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PHONE_021_HTML_INJECTION",
+        "description": "Verify the phone field rejects HTML injection attempts.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PHONE_HTML_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PHONE_022_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in phone number field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_PHONE_SQL_LIKE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PHONE_023_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in phone number field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_XSS_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "PHONE_024_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a phone field cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "PHONE_025_MAX_LENGTH_DECLARED",
+        "description": "Phone fields should declare a maxlength attribute aligned with E.164 (15 digits max).",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "PHONE_026_AUTOCOMPLETE_TEL",
+        "description": "Phone fields should declare autocomplete='tel' to enable browser autofill.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.autocomplete !== undefined"
+      },
+      {
+        "id": "PHONE_027_PLACEHOLDER_COHERENCE",
+        "description": "If a placeholder is declared, verify it provides a meaningful phone format example.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.placeholder !== '' && field.element.placeholder !== undefined"
+      },
+      {
+        "id": "PHONE_028_INVALID_COUNTRY_CODE",
+        "description": "Verify rejection of phone numbers with invalid country code (+000...). Country code 0 does not exist in E.164 — a system that accepts it may not validate country codes at all.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_PHONE_INVALID_COUNTRY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      }
+    ],
+    "URL": [
+      {
+        "id": "URL_001_REQUIRED_IF_DECLARED",
+        "description": "If the URL field is marked as required, it must prevent empty submissions.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "URL_002_TYPE_URL_DECLARED",
+        "description": "URL fields should use type='url' for browser-level validation and UX.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.type === 'url'"
+      },
+      {
+        "id": "URL_003_HAS_ARIA_LABEL",
+        "description": "URL fields should have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "URL_004_HAS_NAME_ATTRIBUTE",
+        "description": "URL fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "URL_005_EMPTY_REJECTION",
+        "description": "Verify that empty URL fields block submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_006_VALID_HTTP_ACCEPTANCE",
+        "description": "Verify that a well-formed http:// URL is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_VALID_HTTP",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_007_VALID_HTTPS_ACCEPTANCE",
+        "description": "Verify that a well-formed https:// URL is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_VALID_HTTPS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_008_MISSING_PROTOCOL_REJECTION",
+        "description": "Verify rejection of URLs without protocol (example.com without http/https).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_URL_MISSING_PROTOCOL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_009_FTP_SCHEME_HANDLING",
+        "description": "Verify that non-http/https schemes like ftp:// are rejected. Most web applications should only accept http/https URLs; accepting ftp:// may indicate insufficient scheme validation.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_URL_FTP_SCHEME",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_010_JAVASCRIPT_SCHEME_REJECTION",
+        "description": "The field must reject javascript: scheme URLs (XSS attack vector).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_JAVASCRIPT_SCHEME",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "URL_011_DATA_URI_REJECTION",
+        "description": "The field must reject data: URI scheme URLs (security risk).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_DATA_URI",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "URL_012_MISSING_TLD_REJECTION",
+        "description": "Verify rejection of URLs with domain missing TLD (https://example without .com).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_MISSING_TLD",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_013_DOUBLE_DOT_DOMAIN_REJECTION",
+        "description": "Verify rejection of URLs with consecutive dots in domain (https://example..com).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_DOUBLE_DOT_DOMAIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_014_DOMAIN_LABEL_63",
+        "description": "Verify acceptance of URL with domain label at boundary (63 chars = RFC max per label).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_LABEL_63",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_015_DOMAIN_LABEL_64_REJECTION",
+        "description": "Verify rejection of URL with domain label exceeding 63 chars.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_LABEL_64",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_016_WITH_PORT_ACCEPTANCE",
+        "description": "Verify that URLs with a valid port number are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_WITH_PORT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_017_INVALID_PORT_REJECTION",
+        "description": "Verify rejection of URLs with invalid port numbers (e.g., :99999).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_URL_INVALID_PORT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_018_WITH_PATH_ACCEPTANCE",
+        "description": "Verify that URLs with path components are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_WITH_PATH",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_019_WITH_QUERY_ACCEPTANCE",
+        "description": "Verify that URLs with query string parameters are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_WITH_QUERY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_020_VERY_LONG_REJECTION",
+        "description": "Verify rejection or truncation of extremely long URLs (2000+ chars).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_VERY_LONG",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_021_SPACES_REJECTION",
+        "description": "Verify rejection of URLs containing literal spaces.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_SPACES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_022_INVALID_DOMAIN_REJECTION",
+        "description": "Verify rejection of URLs with invalid domain syntax (underscores, etc.).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_URL_INVALID_DOMAIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "URL_023_CONTROL_CHAR_REJECTION",
+        "description": "Verify rejection of URLs containing control characters.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_CONTROL_CHAR",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "URL_024_HTML_INJECTION_REJECTION",
+        "description": "Verify the URL field rejects HTML injection attempts.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_HTML_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "URL_025_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in URL field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "URL_026_ENCODED_SPACE_ACCEPTANCE",
+        "description": "Verify that percent-encoded spaces (%20) in URLs are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_ENCODED_SPACE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_027_SUBDOMAIN_ACCEPTANCE",
+        "description": "Verify that URLs with subdomains are accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_URL_SUBDOMAIN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "URL_028_PATTERN_COHERENCE",
+        "description": "If a pattern attribute is declared on the URL field, verify its regex is syntactically valid.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.pattern !== undefined && field.element.pattern !== ''"
+      },
+      {
+        "id": "URL_029_MAX_LENGTH_DECLARED",
+        "description": "URL fields should declare a maxlength attribute consistent with typical browser limits.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "URL_030_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a URL field cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "URL_031_SSRF_FILE_SCHEME",
+        "description": "Verify rejection of file:// scheme URLs. Accepting file:// in a URL field can enable Server-Side Request Forgery (SSRF) attacks by causing the server to read local filesystem paths.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_URL_FILE_SCHEME",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      }
+    ],
+    "DATE": [
+      {
+        "id": "DATE_001_REQUIRED_IF_DECLARED",
+        "description": "If the date field is marked as required, it must prevent empty submissions.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "DATE_002_TYPE_DATE_DECLARED",
+        "description": "Date fields should use type='date' for native picker support and format normalization.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.type === 'date'"
+      },
+      {
+        "id": "DATE_003_HAS_ARIA_LABEL",
+        "description": "Date fields should have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "DATE_004_HAS_NAME_ATTRIBUTE",
+        "description": "Date fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "DATE_005_MIN_DECLARED",
+        "description": "Date fields should declare a min attribute if there is a lower date bound constraint.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.min !== undefined && field.element.min !== ''"
+      },
+      {
+        "id": "DATE_006_MAX_DECLARED",
+        "description": "Date fields should declare a max attribute if there is an upper date bound constraint.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.max !== undefined && field.element.max !== ''"
+      },
+      {
+        "id": "DATE_007_EMPTY_REJECTION",
+        "description": "Verify that empty date fields block submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_008_VALID_ISO_ACCEPTANCE",
+        "description": "Verify that a well-formed ISO 8601 date (YYYY-MM-DD) is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_DATE_VALID_ISO",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "DATE_009_INVALID_DATE_REJECTION",
+        "description": "Verify rejection of structurally invalid dates (month 13, day 45).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_010_SLASH_FORMAT_REJECTION",
+        "description": "Verify consistent handling of slash-delimited date format (2026/12/31).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_DATE_SLASH_FORMAT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_011_LOCALE_FORMAT_REJECTION",
+        "description": "Verify rejection of locale-specific date format (DD/MM/YYYY) when ISO format is expected.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_DATE_LOCALE_FORMAT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_012_TIMESTAMP_REJECTION",
+        "description": "Verify rejection of full ISO 8601 timestamps when only date is expected.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_DATE_TIMESTAMP",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_013_ALPHANUMERIC_REJECTION",
+        "description": "Verify rejection of dates with alphanumeric month values (2026-AB-10).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_ALPHANUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_014_INVALID_MONTH_REJECTION",
+        "description": "Verify rejection of month values exceeding 12.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_INVALID_MONTH",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_015_INVALID_DAY_REJECTION",
+        "description": "Verify rejection of invalid day values (e.g., April 31).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_INVALID_DAY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_016_LEAP_YEAR_VALID",
+        "description": "Verify acceptance of Feb 29 on a valid leap year.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_DATE_LEAP_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "DATE_017_LEAP_YEAR_INVALID",
+        "description": "Verify rejection of Feb 29 on a non-leap year.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_LEAP_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_018_ZERO_DATE_REJECTION",
+        "description": "Verify rejection of the null date 0000-00-00.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_ZERO",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_019_MIN_VALID_ACCEPTANCE",
+        "description": "Verify acceptance of a historical date (1900-01-01). This is informational — the actual minimum valid date depends on the field's business context.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_DATE_MIN_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "DATE_020_MIN_INVALID_REJECTION",
+        "description": "Test system behavior for dates before 1900-01-01. Rejection is expected only if the field declares an explicit min constraint; without it, this is informational.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_DATE_MIN_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "DATE_021_FUTURE_DATE_HANDLING",
+        "description": "Verify consistent handling of future dates (accept if no max constraint).",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_DATE_FUTURE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "DATE_022_YEAR_OVERFLOW_REJECTION",
+        "description": "Verify rejection of dates with years exceeding 4-digit limits (10000-01-01).",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_DATE_YEAR_OVERFLOW",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_023_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in date field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_DATE_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "DATE_024_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in date field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_DATE_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "DATE_025_MINOR_AGE_HANDLING",
+        "description": "Test system behavior for a birthdate indicating a minor (age < 18). Rejection is expected only if the form explicitly restricts to adults; this rule is informational for generic date fields.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_DATE_MINOR_AGE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "DATE_026_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a date field cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "DATE_027_TIMEZONE_INJECTION",
+        "description": "Verify rejection of timezone injection in date-time strings (2026-01-01T00:00:00+99:99). Invalid timezone offsets may cause date parsing errors or silent value distortion on the server.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_DATE_TIMEZONE_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      }
+    ],
+    "CHECKBOX": [
+      {
+        "id": "CHK_001_REQUIRED_IF_DECLARED",
+        "description": "Mandatory checkboxes must have the required attribute and block submission when unchecked.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "CHK_002_HAS_ARIA_LABEL",
+        "description": "Checkboxes must have an accessible label to describe their purpose.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "CHK_003_HAS_ID_ATTRIBUTE",
+        "description": "Checkboxes must declare an 'id' attribute for label association.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.id !== '' && field.element.id !== undefined"
+      },
+      {
+        "id": "CHK_004_HAS_NAME_ATTRIBUTE",
+        "description": "Checkboxes must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "CHK_005_TYPE_CHECKBOX_DECLARED",
+        "description": "Verify the field is declared as type='checkbox'.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.type === 'checkbox'"
+      },
+      {
+        "id": "CHK_006_UNCHECKED_REJECTION",
+        "description": "Verify submission is blocked when a required checkbox is left unchecked.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_UNCHECKED",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_007_CHECKED_ACCEPTANCE",
+        "description": "Verify submission proceeds when a required checkbox is checked.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_CHECKED",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "CHK_008_NULL_REJECTION",
+        "description": "Verify rejection of null/empty value for required checkbox field.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_NULL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_009_STRING_TRUE_HANDLING",
+        "description": "Verify consistent handling of quoted string 'true' as checkbox value (type confusion). Note: for native HTML checkboxes, Playwright uses setChecked() — this test is only meaningful for custom checkbox components that accept arbitrary string values via API.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_STRING_TRUE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_010_NUMERIC_1_HANDLING",
+        "description": "Verify consistent handling of numeric 1 as boolean (truthy type confusion). Note: for native HTML checkboxes, Playwright uses setChecked() — this test is only meaningful for custom checkbox components that accept arbitrary string values via API.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_NUMERIC_1",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_011_NUMERIC_2_HANDLING",
+        "description": "Verify rejection of numeric 2 (not a valid boolean equivalent). Note: for native HTML checkboxes, Playwright uses setChecked() — this test is only meaningful for custom checkbox components that accept arbitrary string values via API.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_NUMERIC_2",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_012_UPPERCASE_HANDLING",
+        "description": "Verify consistent handling of 'TRUE' (uppercase string) as boolean. Note: for native HTML checkboxes, Playwright uses setChecked() — this test is only meaningful for custom checkbox components that accept arbitrary string values via API.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_STRING_UPPER",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_013_MULTIPLE_VALUES_REJECTION",
+        "description": "Verify rejection of array format [true,false] for a single checkbox. Note: for native HTML checkboxes, Playwright uses setChecked() — this test is only meaningful for custom checkbox components that accept arbitrary string values via API.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_MULTIPLE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "CHK_014_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in checkbox related logic.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "CHK_015_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in checkbox value.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_CHECKBOX_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "CHK_016_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a required checkbox cannot be disabled.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "CHK_017_TAB_INDEX_DECLARED",
+        "description": "Checkboxes should have a tabindex ≥ 0 to be keyboard navigable.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.tabIndex !== undefined && field.element.tabIndex >= 0"
+      },
+      {
+        "id": "CHK_018_VALUE_ATTRIBUTE_DECLARED",
+        "description": "Checkboxes should declare a value attribute for meaningful form submission.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.value !== undefined && field.element.value !== ''"
+      },
+      {
+        "id": "CHK_019_ARIA_CHECKED_COHERENCE",
+        "description": "Verify that aria-checked attribute coherently matches the actual checked state.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaChecked !== undefined"
+      },
+      {
+        "id": "CHK_020_ROLE_COHERENCE",
+        "description": "If role attribute is present, verify it is 'checkbox' for native checkbox elements.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.role === 'checkbox' || field.element.role === undefined"
+      },
+      {
+        "id": "CHK_021_GENERIC_INJECTION",
+        "description": "Test with generic SQL injection to cover blind server-side vulnerability in checkbox parameters.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      }
+    ],
+    "RADIO": [
+      {
+        "id": "RAD_001_REQUIRED_IF_DECLARED",
+        "description": "If a radio group is required, it must prevent submission without a selection.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "RAD_002_HAS_NAME_ATTRIBUTE",
+        "description": "Radio buttons in a group must share a 'name' attribute for group behavior.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "RAD_003_HAS_ID_ATTRIBUTE",
+        "description": "Each radio button must have a unique 'id' attribute for label association.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.id !== '' && field.element.id !== undefined"
+      },
+      {
+        "id": "RAD_004_HAS_ARIA_LABEL",
+        "description": "The radio group should have an accessible grouping label.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "RAD_005_TYPE_RADIO_DECLARED",
+        "description": "Verify the field is declared as type='radio'.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.type === 'radio'"
+      },
+      {
+        "id": "RAD_006_INVALID_OPTION_REJECTION",
+        "description": "The system must reject values not corresponding to any valid option (DOM tampering).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_RADIO_INVALID_OPTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_007_NULL_REJECTION",
+        "description": "Verify rejection of null/empty value when radio group is required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_RADIO_NULL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_008_VALID_OPTION_ACCEPTANCE",
+        "description": "Verify that selecting a valid option allows form submission to proceed.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_RADIO_VALID_OPTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "RAD_009_CASE_VARIATION_REJECTION",
+        "description": "Verify rejection of case-varied option values (opcion_a vs OPCION_A) to prevent case-insensitive bypass.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_RADIO_CASE_VARIATION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_010_MULTIPLE_VALUES_REJECTION",
+        "description": "Verify rejection of multiple simultaneous values in single-select radio group.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_RADIO_MULTIPLE_VALUES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_011_DUPLICATE_VALUES_REJECTION",
+        "description": "Verify rejection of duplicate values in radio submission.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_RADIO_DUPLICATE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_012_NUMERIC_REJECTION",
+        "description": "Verify rejection of numeric values when string option values are expected.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_RADIO_NUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "RAD_013_INJECTION_IN_OPTION",
+        "description": "Verify rejection of script injection embedded within a valid option value.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_RADIO_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "RAD_014_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in radio value submission.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_RADIO_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "RAD_015_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in radio value submission.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_RADIO_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "RAD_016_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: required radio group cannot have all options disabled.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "RAD_017_TAB_INDEX_DECLARED",
+        "description": "Radio buttons should be keyboard navigable via tabindex.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.tabIndex !== undefined && field.element.tabIndex >= 0"
+      },
+      {
+        "id": "RAD_018_VALUE_ATTRIBUTE_DECLARED",
+        "description": "Each radio button must declare a value attribute for meaningful form submission.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.value !== undefined && field.element.value !== ''"
+      },
+      {
+        "id": "RAD_019_ROLE_COHERENCE",
+        "description": "If role attribute is present, verify it is 'radio' for native radio elements.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.role === 'radio' || field.element.role === undefined"
+      },
+      {
+        "id": "RAD_020_GENERIC_INJECTION",
+        "description": "Test with generic SQL injection to probe server-side radio value processing.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      }
+    ],
+    "SELECT": [
+      {
+        "id": "SEL_001_REQUIRED_IF_DECLARED",
+        "description": "If a select field is required, it must prevent submission without a valid selection.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "SEL_002_HAS_ARIA_LABEL",
+        "description": "Select fields must have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "SEL_003_HAS_ID_ATTRIBUTE",
+        "description": "Select fields must declare an 'id' attribute for label association.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.id !== '' && field.element.id !== undefined"
+      },
+      {
+        "id": "SEL_004_HAS_NAME_ATTRIBUTE",
+        "description": "Select fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "SEL_005_HAS_OPTIONS",
+        "description": "Select fields must have at least one option element to be functional.",
+        "type": "Declarative",
+        "severity": "Critical",
+        "declarativeCondition": "field.element.options !== undefined && field.element.options.length > 0"
+      },
+      {
+        "id": "SEL_006_INVALID_OPTION_REJECTION",
+        "description": "The system must reject values that do not exist in the declared dropdown options.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SELECT_INVALID_OPTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_007_NULL_REJECTION",
+        "description": "Verify rejection of empty/null value when select field is required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_SELECT_NULL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_008_VALID_OPTION_ACCEPTANCE",
+        "description": "Verify that selecting a valid option allows form submission to proceed.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SELECT_VALID_OPTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "SEL_009_CASE_VARIATION_REJECTION",
+        "description": "Verify rejection of case-varied option values to prevent case-insensitive bypass.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_SELECT_CASE_VARIATION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_010_OUTDATED_OPTION_REJECTION",
+        "description": "Verify that deactivated/removed options are not accepted by the backend.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_SELECT_OUTDATED",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_011_HIDDEN_OPTION_REJECTION",
+        "description": "Verify that hidden options injected via DOM manipulation are rejected.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_SELECT_HIDDEN",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_012_MULTIPLE_VALID_HANDLING",
+        "description": "Verify consistent handling of multiple selected values in a single-select field.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_SELECT_MULTIPLE_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_013_NUMERIC_ID_HANDLING",
+        "description": "Verify consistent handling of numeric IDs as option values.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_SELECT_NUMERIC_ID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "SEL_014_OBJECT_VALUE_REJECTION",
+        "description": "Verify rejection of JSON object format as option value (type confusion).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_SELECT_OBJECT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_015_ARRAY_SINGLE_HANDLING",
+        "description": "Verify consistent handling of array-wrapped single option value.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_SELECT_ARRAY_SINGLE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "SEL_016_DEPENDENT_INVALID",
+        "description": "Verify rejection of dependent select values that don't match parent selection.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_SELECT_DEPENDENT_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "SEL_017_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in select field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SELECT_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "SEL_018_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in select field.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SELECT_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "SEL_019_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a select field cannot be both required and disabled.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "SEL_020_TAB_INDEX_DECLARED",
+        "description": "Select fields should be keyboard navigable via tabindex.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.tabIndex !== undefined && field.element.tabIndex >= 0"
+      },
+      {
+        "id": "SEL_021_PLACEHOLDER_OPTION",
+        "description": "Select fields should have a disabled placeholder option (value='') as default.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.options !== undefined"
+      },
+      {
+        "id": "SEL_022_ROLE_COHERENCE",
+        "description": "If role attribute is present, verify it is 'listbox' or 'combobox' for select elements.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.role === undefined || field.element.role === 'listbox' || field.element.role === 'combobox'"
+      },
+      {
+        "id": "SEL_023_ARIA_EXPANDED_DECLARED",
+        "description": "Custom select components should declare aria-expanded for accessible state communication.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.ariaExpanded !== undefined"
+      },
+      {
+        "id": "SEL_024_GENERIC_INJECTION",
+        "description": "Test with generic SQL injection to probe blind server-side select value processing.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_SQL_INJECTION_BASIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      }
+    ],
+    "TEXTAREA": [
+      {
+        "id": "TXTAR_001_REQUIRED_IF_DECLARED",
+        "description": "If the textarea is marked as required, it must prevent submission when empty.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "TXTAR_002_HAS_ARIA_LABEL",
+        "description": "Textarea fields should have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "TXTAR_003_HAS_NAME_ATTRIBUTE",
+        "description": "Textarea fields must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "TXTAR_004_MAX_LENGTH_DECLARED",
+        "description": "Textarea fields should declare a maxlength attribute to prevent excessive input.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.maxLength !== undefined && field.element.maxLength > 0"
+      },
+      {
+        "id": "TXTAR_005_EMPTY_REJECTION",
+        "description": "Verify that empty textarea blocks submission when required.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_EMPTY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "TXTAR_006_ONLY_SPACES_REJECTION",
+        "description": "Verify rejection of input containing only whitespace characters (spaces, newlines).",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_ONLY_SPACES",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "TXTAR_007_MIN_INVALID_REJECTION",
+        "description": "Verify rejection of textarea content below declared minimum length.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_MIN_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "TXTAR_008_MIN_VALID_ACCEPTANCE",
+        "description": "Verify acceptance of textarea content at exactly the minimum length boundary.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_MIN_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TXTAR_009_MAX_VALID_ACCEPTANCE",
+        "description": "Verify acceptance of textarea content at exactly the maximum length boundary.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_MAX_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TXTAR_010_MAX_INVALID_REJECTION",
+        "description": "Verify rejection or truncation of textarea content exceeding maximum length.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_MAX_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TXTAR_011_MULTILINE_ACCEPTANCE",
+        "description": "Verify that multiline text with newlines is accepted.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_MULTILINE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TXTAR_012_HTML_TAGS_HANDLING",
+        "description": "Verify that HTML tags submitted in a textarea are rejected or sanitized server-side. A field that stores raw HTML without sanitization is a stored XSS vulnerability.",
+        "type": "Behavioral",
+        "severity": "Warning",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_HTML_TAGS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TXTAR_013_XSS_INJECTION",
+        "description": "Test for Cross-Site Scripting vulnerability in textarea fields.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TXTAR_014_SQL_INJECTION",
+        "description": "Test for SQL Injection vulnerability in textarea fields.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "TXTAR_015_SPECIAL_CHARS_ACCEPTANCE",
+        "description": "Verify that textarea accepts text with special characters without unjustified filtering.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_TEXTAREA_SPECIAL_CHARS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "TXTAR_016_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a textarea cannot be both required and disabled simultaneously.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      },
+      {
+        "id": "TXTAR_017_ROWS_COLS_DECLARED",
+        "description": "Textarea should declare rows and cols attributes for consistent rendering.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.rows !== undefined || field.element.cols !== undefined"
+      },
+      {
+        "id": "TXTAR_018_MINLENGTH_COHERENCE",
+        "description": "If minlength is declared, verify its value is reasonable (> 0 and < maxlength).",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "(field.element.minLength === undefined || field.element.minLength === null) || (field.element.minLength > 0 && field.element.minLength < field.element.maxLength)"
+      }
+    ],
+    "FILE": [
+      {
+        "id": "FIL_001_REQUIRED_IF_DECLARED",
+        "description": "If a file input is marked as required, it must prevent submission when no file is selected.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "FIL_002_ACCEPT_ATTRIBUTE_DECLARED",
+        "description": "File inputs should declare an 'accept' attribute to restrict allowed file types at browser level.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.accept !== undefined && field.element.accept !== ''"
+      },
+      {
+        "id": "FIL_003_HAS_ARIA_LABEL",
+        "description": "File inputs should have an accessible label for screen reader support.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.ariaLabel !== '' || field.element.label !== ''"
+      },
+      {
+        "id": "FIL_004_HAS_NAME_ATTRIBUTE",
+        "description": "File inputs must declare a 'name' attribute for form submission.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "FIL_005_INVALID_EXT_REJECTION",
+        "description": "Verify that the system rejects files with unauthorized extensions.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_INVALID_EXT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_006_TOO_LARGE_REJECTION",
+        "description": "Verify that the system rejects files exceeding the maximum allowed size.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_TOO_LARGE",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_007_VALID_PDF_ACCEPTANCE",
+        "description": "Verify that a valid PDF file is accepted.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_VALID_PDF",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "FIL_008_DOUBLE_EXT_REJECTION",
+        "description": "Verify rejection of files with double extensions used to hide malicious content (e.g., .pdf.exe).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_DOUBLE_EXT",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_009_MAX_SIZE_VALID",
+        "description": "Verify acceptance of a file at exactly the maximum allowed size.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_FILE_MAX_VALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "FIL_010_MAX_SIZE_INVALID",
+        "description": "Verify rejection of a file slightly above the maximum allowed size.",
+        "type": "Behavioral",
+        "severity": "Error",
+        "dataStrategyPayload": "PAYLOAD_FILE_MAX_INVALID",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_011_MIME_MISMATCH_REJECTION",
+        "description": "Verify rejection of files where MIME type does not match the declared extension.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_MIME_MISMATCH",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_012_MALWARE_SIM_REJECTION",
+        "description": "Verify rejection of files simulating malware signatures (EICAR test string).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_MALWARE_SIM",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "SHOWS_ERROR_CLASS"
+        ]
+      },
+      {
+        "id": "FIL_013_PATH_TRAVERSAL_REJECTION",
+        "description": "Verify rejection of filenames containing path traversal sequences (../../../etc/passwd).",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_FILE_PATH_TRAVERSAL",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "FIL_014_MULTIPLE_ATTRIBUTE_DECLARED",
+        "description": "If multiple file uploads are expected, the 'multiple' attribute should be declared.",
+        "type": "Declarative",
+        "severity": "Info",
+        "declarativeCondition": "field.element.multiple !== undefined"
+      },
+      {
+        "id": "FIL_015_DISABLED_REQUIRED_CONFLICT",
+        "description": "Detect incoherence: a required file input cannot be disabled.",
+        "type": "Declarative",
+        "severity": "Error",
+        "declarativeCondition": "!(field.element.required === true && field.element.disabled === true)"
+      }
+    ],
+    "UNKNOWN": [
+      {
+        "id": "UNK_001_REQUIRED_IF_DECLARED",
+        "description": "If the unknown field has a required attribute, verify it blocks empty submissions.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.required === true"
+      },
+      {
+        "id": "UNK_002_HAS_NAME_ATTRIBUTE",
+        "description": "Unknown fields must declare a 'name' attribute for proper form submission.",
+        "type": "Declarative",
+        "severity": "Warning",
+        "declarativeCondition": "field.element.name !== '' && field.element.name !== undefined"
+      },
+      {
+        "id": "UNK_003_OVERFLOW_TEST",
+        "description": "Insert a destructive 5000-character string to test overflow and middleware failure.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_EXTREME_LENGTH",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "UNK_004_SQL_INJECTION",
+        "description": "Test for blind SQL Injection in fields of unknown type.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_SQL_INJECTION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "UNK_005_XSS_INJECTION",
+        "description": "Probe for XSS vulnerabilities in generic inputs of unknown type.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_XSS",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "UNK_006_STRING_INFERENCE",
+        "description": "Insert a standard string to infer if the field accepts text.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_STRING",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "UNK_007_NUMERIC_INFERENCE",
+        "description": "Insert a numeric string to infer if the field expects numbers.",
+        "type": "Behavioral",
+        "severity": "Info",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_NUMERIC",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "ALLOWS_SUBMIT"
+        ]
+      },
+      {
+        "id": "UNK_008_TYPE_CONFUSION",
+        "description": "Insert a JSON object as value to detect type confusion vulnerabilities.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_TYPE_CONFUSION",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "UNK_009_BINARY_INJECTION",
+        "description": "Insert binary/null-byte sequences to test for unsafe deserialization or buffer issues.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_UNKNOWN_BINARY",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      },
+      {
+        "id": "UNK_010_GENERIC_OVERFLOW",
+        "description": "Insert a 5000-character string to test generic overflow handling.",
+        "type": "Behavioral",
+        "severity": "Critical",
+        "dataStrategyPayload": "PAYLOAD_STRING_5000",
+        "requiredInteractionType": "SUBMIT",
+        "expectedBehavior": [
+          "BLOCKS_SUBMIT",
+          "BACKEND_REJECTS"
+        ]
+      }
+    ]
+  }
+}
